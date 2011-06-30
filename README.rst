@@ -5,6 +5,10 @@ Simple Pythonic HTML Writer
 
 As simple as below::
 
+    import sphw
+
+    tf = sphw.TagFactory()
+
     html = tf.HTML()
     html.head = tf.HEAD()
     html.body = tf.BODY()
@@ -29,5 +33,5 @@ As simple as below::
     html.body.content.atable = atable
     html.body.content.attributes['id'] = 'content_id'
 
-    return html
+    print(html.pretty())
 
