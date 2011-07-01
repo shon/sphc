@@ -1,7 +1,8 @@
 Simple Pythonic HTML Creator
 ============================
 
-*Very alpha yet*
+ - *Very alpha yet*
+ - Tested only on Python3
 
 As simple as below::
 
@@ -35,3 +36,7 @@ As simple as below::
 
     print(html.pretty())
 
+
+TODO
+====
+ - escape support
