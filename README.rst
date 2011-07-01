@@ -1,5 +1,5 @@
-Simple Pythonic HTML Writer
-===========================
+Simple Pythonic HTML Creator
+============================
 
 *Very alpha yet*
 

@@ -82,8 +82,6 @@ def test():
     html.body.content.atable = atable
     html.body.content.attributes['id'] = 'content_id'
 
-    return html
-
-html = test()
-print(html)
-print(html.pretty())
+    html = test()
+    print(html)
+    print(html.pretty())
