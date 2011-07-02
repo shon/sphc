@@ -2,7 +2,7 @@ Simple Pythonic HTML Creator
 ============================
 
  - *Very alpha yet* but works
- - Tested only on Python3
+ - Only on Python3/ 2.x
  - To add more tests
 
 As simple as below::

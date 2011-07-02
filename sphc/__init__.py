@@ -1,3 +1,5 @@
+import cgi
+
 NO_CONTENT_TAGS = ('br',)
 ESCAPE_DEFAULT = True
 
@@ -5,9 +7,9 @@ class pats:
     regular = '<%(tagname)s%(attributes)s>%(content)s%(children)s</%(tagname)s>'
     no_content = '<%(tagname)s/>'
 
-class Tag:
+class Tag(object):
     def __call__(self, content='', **attrs):
-        self._content = cgi.esacpe(content) if ESCAPE_DEFAULT else content
+        self._content = cgi.escape(content) if ESCAPE_DEFAULT else content
         self.attributes = attrs
         return self
     def __init__(self, name):
@@ -83,6 +85,5 @@ def test():
     html.body.content.atable = atable
     html.body.content.attributes['id'] = 'content_id'
 
-    html = test()
     print(html)
     print(html.pretty())
