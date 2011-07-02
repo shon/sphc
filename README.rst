@@ -5,7 +5,7 @@ Simple Pythonic HTML Creator
  - Compatible with Python3/ 2.x
 
  - Source: `<https://github.com/shon/sphc>`_
- - Any suggestions/issues | `<https://github.com/shon/sphc/issues>`
+ - Any suggestions/issues | `<https://github.com/shon/sphc/issues>`_
  - Critisism or if you feel such thing already implemented feel free to write Authour.
 
 As simple as below::
