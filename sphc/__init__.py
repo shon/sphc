@@ -1,4 +1,5 @@
 NO_CONTENT_TAGS = ('br',)
+ESCAPE_DEFAULT = True
 
 class pats:
     regular = '<%(tagname)s%(attributes)s>%(content)s%(children)s</%(tagname)s>'
@@ -6,7 +7,7 @@ class pats:
 
 class Tag:
     def __call__(self, content='', **attrs):
-        self._content = content
+        self._content = cgi.esacpe(content) if ESCAPE_DEFAULT else content
         self.attributes = attrs
         return self
     def __init__(self, name):
