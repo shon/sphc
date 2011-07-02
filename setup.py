@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='sphc',
-    version='0.3.0',
+    version='0.3.1',
     description='Simple Pythonic HTML Creator',
     long_description=open("README.rst").read(),
     packages=find_packages(),

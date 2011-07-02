@@ -2,8 +2,11 @@ Simple Pythonic HTML Creator
 ============================
 
  - *Very alpha yet* but works
- - Only on Python3/ 2.x
- - To add more tests
+ - Compatible with Python3/ 2.x
+
+ - Source: `<https://github.com/shon/sphc>`_
+ - Any suggestions/issues | `<https://github.com/shon/sphc/issues>`
+ - Critisism or if you feel such thing already implemented feel free to write Authour.
 
 As simple as below::
 
@@ -38,6 +41,12 @@ As simple as below::
     >> print(html.pretty())
 
 
+Similar packages
+================
+    - http://pypi.python.org/pypi/html # Inspiration. It uses __getattr__ trick whereas this package is mostly a __setattr__ tric, aiming sharing of blocks.
+    - http://karrigell.sourceforge.net/en/htmltags.html
+
 TODO
 ====
- - escape support
+ - To add more tests
+ - A document class ?
