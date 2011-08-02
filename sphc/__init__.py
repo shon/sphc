@@ -1,27 +1,25 @@
 import cgi
 
-NO_CONTENT_TAGS = ('br',)
 ESCAPE_DEFAULT = True
 
 class pats:
-    regular = '<%(tagname)s%(attributes)s>%(content)s%(children)s</%(tagname)s>'
-    no_content = '<%(tagname)s/>'
+    regular = '<%(tagname)s %(nv_attributes)s %(attributes)s>%(content)s%(children)s</%(tagname)s>'
+    no_content = '<%(tagname)s %(nv_attributes)s %(attributes)s />'
 
 class Tag(object):
-    def __call__(self, content='', **attrs):
-        self._content = cgi.escape(content) if ESCAPE_DEFAULT else content
+    def __call__(self, content='', *nv_attrs, **attrs):
+        self._content = (cgi.escape(content) if ESCAPE_DEFAULT else content) if content else ''
         self.attributes = attrs
+        self.nv_attributes = nv_attrs
         return self
     def __init__(self, name):
         self.name = name
-        self.pat = pats.regular
-        if name.lower() in NO_CONTENT_TAGS:
-            self.pat = pats.no_content
         self.children = []
         self.attributes = {}
+        self.nv_attributes = []
         self._content = ''
     def __setattr__(self, name, v):
-        if name in ['name', 'pat', 'children', 'attributes', '_content']:
+        if name in ['name', 'nv_attributes', 'children', 'attributes', '_content']:
             object.__setattr__(self, name, v)
         else:
             if isinstance(v, (tuple, list)):
@@ -44,15 +42,28 @@ class Tag(object):
         for child_name, child in self.children:
             children_s += str(child)
         attributes_s = ' '.join('%s="%s"' % kv for kv in self.attributes.items())
+        nv_attributes_s = ' '.join(self.nv_attributes)
         if attributes_s: attributes_s = ' ' + attributes_s
         #if children_s: children_s = '\n' + children_s + '\n'
-        return self.pat % dict(content=self._content, children=children_s, tagname=self.name, attributes=attributes_s)
-    def pretty(self):
-        # should try pytidylib
-        import xml.dom.minidom
+        if self._content or children_s:
+            return pats.regular % dict(content=self._content, children=children_s, tagname=self.name, attributes=attributes_s, nv_attributes=nv_attributes_s)
+        return pats.no_content % dict(tagname=self.name, attributes=attributes_s, nv_attributes=nv_attributes_s)
 
-        xml = xml.dom.minidom.parseString(str(self)) # or xml.dom.minidom.parseString(xml_string)
-        return  xml.toprettyxml('  ')
+    def pretty(self):
+        from tidylib import tidy_document
+        options = { "output-xhtml": 0,     # XHTML instead of HTML4
+            "indent": 1,           # Pretty; not too much of a performance hit
+            "tidy-mark": 0,        # No tidy meta tag in output
+            "wrap": 0,             # No wrapping
+            "alt-text": "",        # Help ensure validation
+            }
+        document, errors = tidy_document(str(self), options=options)
+        #print(errors)
+        return document
+
+        #import xml.dom.minidom
+        #xml = xml.dom.minidom.parseString(str(self)) # or xml.dom.minidom.parseString(xml_string)
+        #return  xml.toprettyxml('  ')
 
 class TagFactory:
     def __getattr__(self, tagname):
@@ -82,8 +93,13 @@ def test():
 
     atable.row = row
 
+    c = tf.INPUT(None, 'checked', type='checkbox', value='foo')
+
+    html.body.content.c = c
     html.body.content.atable = atable
     html.body.content.attributes['id'] = 'content_id'
 
     print(html)
     print(html.pretty())
+
+test()
