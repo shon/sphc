@@ -39,6 +39,7 @@ As simple as below::
     >>> html.body.content.atable = atable
     >>> html.body.content.attributes['id'] = 'content_id'
 
+    >>> print(html)
     >>> print(html.pretty())
 
 Remember
