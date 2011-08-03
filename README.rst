@@ -54,6 +54,19 @@ Properties with no value required
    >>> print(c)
    <INPUT checked type="checkbox", value="foo"/>
 
+More
+====
+
+sphc.more module privides base HTML5 page classes (based on html5boilerplate.com templates) This is work in progress.::
+
+    >>> import sphc.more
+    >>> tf = sphw.TagFactory()
+    >>> class MyPage(sphc.more.HTML5Page):
+            def footer(self):
+                return tf.FOOTER("Footer text")
+    >>> my_page = MyPage()
+    >>> my_page.render()
+
 
 Similar packages
 ================
