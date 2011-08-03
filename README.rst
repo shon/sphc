@@ -11,9 +11,9 @@ Simple Pythonic HTML Creator
 
 As simple as below::
 
-    >>> import sphw
+    >>> import sphc
 
-    >>> tf = sphw.TagFactory()
+    >>> tf = sphc.TagFactory()
 
     >>> html = tf.HTML()
     >>> html.head = tf.HEAD()
@@ -61,7 +61,7 @@ More
 sphc.more module privides base HTML5 page classes (based on html5boilerplate.com templates) This is work in progress.::
 
     >>> import sphc.more
-    >>> tf = sphw.TagFactory()
+    >>> tf = sphc.TagFactory()
     >>> class MyPage(sphc.more.HTML5Page):
             def footer(self):
                 return tf.FOOTER("Footer text")
