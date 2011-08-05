@@ -35,6 +35,7 @@ class HTML5Page(object):
         return tf.DIV(id="main", role="main")
 
     def nav(self):
+	pass
 
     def render(self):
         html = tf.HTML()
