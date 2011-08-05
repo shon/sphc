@@ -106,5 +106,3 @@ def test():
 
     print(html)
     #print(html.pretty())
-
-test()
