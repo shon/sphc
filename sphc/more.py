@@ -50,11 +50,7 @@ class HTML5Page(object):
         return self.doctype + str(html)
 
     def write(self, outpath):
-        outdir = os.path.basename(outpath)
+        outdir = os.path.dirname(outpath)
         if not os.path.exists(outdir): os.makedirs(outdir)
         open(outpath, 'w').write(self.render())
         return True
-
-def test():
-    page = HTML5Page()
-    page.write('/tmp/1')
