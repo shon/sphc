@@ -1,10 +1,11 @@
 import cgi
 
 ESCAPE_DEFAULT = True
+TAGS_UNFRIENDLY_WITH_SELF_CLOSING = ('DIV', 'SELECT', 'TEXTAREA')
 
 class pats:
-    regular = '<%(tagname)s %(nv_attributes)s %(attributes)s>%(content)s%(children)s</%(tagname)s>'
-    no_content = '<%(tagname)s %(nv_attributes)s %(attributes)s />'
+    regular = '<%(tagname)s%(nv_attributes)s%(attributes)s>%(content)s%(children)s</%(tagname)s>'
+    no_content = '<%(tagname)s%(nv_attributes)s%(attributes)s/>'
 
 class Tag(object):
     def __call__(self, content='', *nv_attrs, **attrs):
@@ -43,9 +44,12 @@ class Tag(object):
             children_s += str(child)
         attributes_s = ' '.join('%s="%s"' % kv for kv in self.attributes.items())
         nv_attributes_s = ' '.join(self.nv_attributes)
+
         if attributes_s: attributes_s = ' ' + attributes_s
-        #if children_s: children_s = '\n' + children_s + '\n'
-        if self._content or children_s:
+        if nv_attributes_s: nv_attributes_s = ' ' + nv_attributes_s
+        if children_s: children_s = ' ' + children_s
+
+        if self.name.upper() in TAGS_UNFRIENDLY_WITH_SELF_CLOSING or self._content or children_s:
             return pats.regular % dict(content=self._content, children=children_s, tagname=self.name, attributes=attributes_s, nv_attributes=nv_attributes_s)
         return pats.no_content % dict(tagname=self.name, attributes=attributes_s, nv_attributes=nv_attributes_s)
 
@@ -78,6 +82,7 @@ def test():
     html.body.content = tf.DIV("Some Text here.", Class='content')
     html.body.content.br = tf.BR()
     html.body.content.br = tf.BR()
+    html.body.content.empty_div = tf.DIV()
     html.footer = tf.FOOTER()
 
     data = [('One', '1'), ('Two', '2'), ('Three', '3')]
@@ -100,4 +105,6 @@ def test():
     html.body.content.attributes['id'] = 'content_id'
 
     print(html)
-    print(html.pretty())
+    #print(html.pretty())
+
+test()

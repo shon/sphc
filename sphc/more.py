@@ -9,10 +9,15 @@ class HTML5Page(object):
     """
     Common case HTML5 template
     Mostly based on HTML5 Boilerplate
+    nav: list eg. [('Home', '/'), ('About Us', '/about')]
+        Also supports nav menus such as
+        home_menu = []
+        [('Home', '/', home_menu), ..]
     """
     doctype = "<!doctype html>"
     jslibs = gen_jquery_urls()
     title = "Common case HTML5 template"
+    nav_links = []
 
     def head(self):
         head = tf.HEAD()
@@ -29,6 +34,8 @@ class HTML5Page(object):
     def main(self):
         return tf.DIV(id="main", role="main")
 
+    def nav(self):
+
     def render(self):
         html = tf.HTML()
         html.head = self.head()
@@ -38,6 +45,10 @@ class HTML5Page(object):
         html.body.container.main = self.main()
         html.body.footer = self.footer()
         return self.doctype + str(html)
+
+    def write(self, outpath):
+        outdir = os.path.basename(outpath)
+        open(outpath)
 
 def test():
     page = HTML5Page()
