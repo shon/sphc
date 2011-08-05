@@ -7,6 +7,9 @@ def gen_jquery_urls(jquery_version='1.6.2', jquery_ui_version='1.8.14'):
     return [ ('https://ajax.googleapis.com/ajax/libs/jquery/%s/jquery.min.js' % jquery_version),
         ('http://ajax.googleapis.com/ajax/libs/jqueryui/%s/jquery-ui.min.js' % jquery_ui_version) ]
 
+css_links = [
+    'http://thatcoolguy.github.com/gridless-boilerplate/demo/assets/css/main.css?version=1' ]
+    
 class HTML5Page(object):
     """
     Common case HTML5 template
@@ -18,6 +21,7 @@ class HTML5Page(object):
     """
     doctype = "<!doctype html>"
     jslibs = gen_jquery_urls()
+    csslinks = css_links
     title = "Common case HTML5 template"
     nav_links = []
 
@@ -25,6 +29,7 @@ class HTML5Page(object):
         head = tf.HEAD()
         head.title = tf.TITLE(self.title)
         head.jslibs = [tf.SCRIPT(src=path) for path in self.jslibs]
+        head.csslinks = [tf.LINK(rel="stylesheet", href=path) for path in self.csslinks]
         return head
 
     def header(self):
