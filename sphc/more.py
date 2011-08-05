@@ -1,4 +1,6 @@
+import os
 import sphc
+
 tf = sphc.TagFactory()
 
 def gen_jquery_urls(jquery_version='1.6.2', jquery_ui_version='1.8.14'):
@@ -35,7 +37,7 @@ class HTML5Page(object):
         return tf.DIV(id="main", role="main")
 
     def nav(self):
-	pass
+        pass
 
     def render(self):
         html = tf.HTML()
@@ -49,8 +51,10 @@ class HTML5Page(object):
 
     def write(self, outpath):
         outdir = os.path.basename(outpath)
-        open(outpath)
+        if not os.path.exists(outdir): os.makedirs(outdir)
+        open(outpath, 'w').write(self.render())
+        return True
 
 def test():
     page = HTML5Page()
-    print(page.render())
+    page.write('/tmp/1')
