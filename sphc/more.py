@@ -26,7 +26,7 @@ class HTML5Page(object):
     """
     doctype = "<!doctype html>"
     jslibs = gen_jquery_urls()
-    csslinks = css_links
+    css_links = css_links
     title = "Common case HTML5 template"
     nav_links = []
 
@@ -34,7 +34,7 @@ class HTML5Page(object):
         head = tf.HEAD()
         head.title = tf.TITLE(self.title)
         head.jslibs = [tf.SCRIPT(src=path) for path in self.jslibs]
-        head.csslinks = [tf.LINK(rel="stylesheet", href=path) for path in self.csslinks]
+        head.csslinks = [tf.LINK(rel="stylesheet", href=path) for path in self.css_links]
         return head
 
     def header(self):
@@ -54,10 +54,10 @@ class HTML5Page(object):
         for label, url, opt in self.nav_links:
             link_id = c.next()
             li = tf.LI()
-            li.link = tf.A(label, id=('navlink-%s' % link_id), href=url)
+            li.link = tf.A(label, Class="navlink", id=('navlink-%s' % link_id), href=url)
             nav.links_container.li = li
             if opt:
-                opt_container = tf.DIV(id=('navlink_opt-%s' % link_id))
+                opt_container = tf.DIV(Class="navlink-opt", id=('navlink_opt-%s' % link_id))
                 opt_container.opt = opt
                 nav.link_opts.opt_container = opt_container
         return nav

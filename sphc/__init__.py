@@ -8,8 +8,8 @@ class pats:
     no_content = '<%(tagname)s%(nv_attributes)s%(attributes)s/>'
 
 class Tag(object):
-    def __call__(self, content='', *nv_attrs, **attrs):
-        self._content = (cgi.escape(content) if ESCAPE_DEFAULT else content) if content else ''
+    def __call__(self, content='', escape=ESCAPE_DEFAULT, *nv_attrs, **attrs):
+        self._content = (cgi.escape(content) if escape else content) if content else ''
         self.attributes = attrs
         self.nv_attributes = nv_attrs
         return self

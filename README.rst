@@ -55,6 +55,18 @@ Properties with no value required
    >>> print(c)
    <INPUT checked type="checkbox", value="foo"/>
 
+Escaping
+========
+
+::
+
+    >>> print(tf.C(' >> ')) # Default
+    >>> <C> &gt;&gt; </C>
+
+    >>> print(tf.C(' >> ', escape=False))
+    >>> <C> >> </C>
+
+
 More
 ====
 
