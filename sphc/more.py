@@ -24,7 +24,7 @@ class HTML5Page(object):
             ('Invoicing', '#home', profile_opts)
             ]
     """
-    doctype = "<!doctype html>"
+    doctype = "<!DOCTYPE html>"
     jslibs = gen_jquery_urls()
     css_links = css_links
     title = "Common case HTML5 template"
@@ -43,13 +43,19 @@ class HTML5Page(object):
     def footer(self):
         return tf.FOOTER()
 
+    def topbar(self):
+        return ''
+
+    def bottombar(self):
+        return ''
+
     def main(self):
         return ''
 
     def nav(self):
         nav = tf.NAV()
         nav.links_container = tf.UL()
-        nav.link_opts = tf.DIV(Class='link_opts')
+        link_opts = tf.DIV(Class='navlink-opts')
         c = itertools.count()
         for label, url, opt in self.nav_links:
             link_id = c.next()
@@ -59,19 +65,39 @@ class HTML5Page(object):
             if opt:
                 opt_container = tf.DIV(Class="navlink-opt", id=('navlink_opt-%s' % link_id))
                 opt_container.opt = opt
-                nav.link_opts.opt_container = opt_container
+                link_opts.opt_container = opt_container
+        if hasattr(nav.links_container, 'li'):
+            nav.links_container.li[0].link.attributes['Class'] = 'navlink navlink-current'
+        nav.clear = clear()
+        nav.link_opts = link_opts
+        script = sphc.tf.SCRIPT("""
+        $('.navlink-opt').hide();
+        $(".navlink").click( function () {
+            $('.navlink-current').attr('class', 'navlink');
+            $(this).attr('class', 'navlink-current');
+            var navlink_opt_id = 'navlink_opt-' + $(this).attr('id').split('-')[1];
+            $('.navlink-opt').hide();
+            $('#' + navlink_opt_id).show();
+        });
+        """)
+        nav.script = script
         return nav
 
     def render(self):
         html = tf.HTML()
         html.head = self.head()
         html.body = tf.BODY()
+        html.body.topbar = self.topbar()
+        html.body.clear = clear()
         html.body.nav = self.nav()
+        html.body.clear = clear()
         html.body.container = tf.DIV(id="container")
         html.body.container.header = self.header()
         html.body.container.main = tf.DIV(id="main", role="main")
         html.body.container.main.main = self.main()
         html.body.footer = self.footer()
+        html.body.clear = clear()
+        html.body.bottombar = self.bottombar()
         return self.doctype + str(html)
 
     def write(self, outpath):
@@ -79,3 +105,6 @@ class HTML5Page(object):
         if not os.path.exists(outdir): os.makedirs(outdir)
         open(outpath, 'w').write(self.render())
         return True
+
+def clear():
+    return tf.BR(style="clear:both") # TODO: Use class clear/clearfix

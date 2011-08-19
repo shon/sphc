@@ -15,7 +15,7 @@ class TestSPHC(unittest.TestCase):
 
     def test_textarea(self):
         ta = self.tf.TEXTAREA()
-        
+
         textarea_pat = '<TEXTAREA[ ]*>[ ]*</TEXTAREA[ ]*>'
         ta_s = str(ta)
         self.assertEqual(bool(re.match(textarea_pat, ta_s)), True)
