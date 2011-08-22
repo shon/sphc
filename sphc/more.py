@@ -100,10 +100,14 @@ class HTML5Page(object):
         html.body.bottombar = self.bottombar()
         return self.doctype + str(html)
 
-    def write(self, outpath):
+    def write(self, outpath, data={}):
+        """
+        outpath: file where output is to be written. If intermediate directories do not exist these would be created.
+        data: String interpolation is attempted on output of render(). This is useful in builds.
+        """
         outdir = os.path.dirname(outpath)
         if not os.path.exists(outdir): os.makedirs(outdir)
-        open(outpath, 'w').write(self.render())
+        open(outpath, 'w').write(self.render() % data)
         return True
 
 def clear():
