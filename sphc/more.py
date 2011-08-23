@@ -53,6 +53,7 @@ class HTML5Page(object):
         return ''
 
     def nav(self):
+        if not self.nav_links: return ''
         nav = tf.NAV()
         nav.links_container = tf.UL()
         link_opts = tf.DIV(Class='navlink-opts')
@@ -60,25 +61,38 @@ class HTML5Page(object):
         for label, url, opt in self.nav_links:
             link_id = c.next()
             li = tf.LI()
-            li.link = tf.A(label, Class="navlink", id=('navlink-%s' % link_id), href=url)
+            current = label == self.current_tab
+            Class = "navlink navlink-current" if current else "navlink"
+            li.link = tf.A(label, Class=Class, id=('navlink-%s' % link_id), href=url)
             nav.links_container.li = li
             if opt:
                 opt_container = tf.DIV(Class="navlink-opt", id=('navlink_opt-%s' % link_id))
                 opt_container.opt = opt
                 link_opts.opt_container = opt_container
-        if hasattr(nav.links_container, 'li'):
-            nav.links_container.li[0].link.attributes['Class'] = 'navlink navlink-current'
+        #if hasattr(nav.links_container, 'li'):
+        #    nav.links_container.li[0].link.attributes['Class'] = 'navlink navlink-current'
         nav.clear = clear()
         nav.link_opts = link_opts
         script = sphc.tf.SCRIPT("""
         $('.navlink-opt').hide();
-        $(".navlink").click( function () {
+        $('.navlink').click( function () {
             $('.navlink-current').attr('class', 'navlink');
             $(this).attr('class', 'navlink-current');
             var navlink_opt_id = 'navlink_opt-' + $(this).attr('id').split('-')[1];
             $('.navlink-opt').hide();
             $('#' + navlink_opt_id).show();
         });
+        $('.navlink-current').click();
+        var curpath = window.location.pathname + window.location.hash + window.location.search;
+        $('.navlink-opt-item').each( function () {
+            if ($(this).attr('href') == curpath) {
+                $(this).attr('class', 'navlink-opt-item navlink-opt-item-current');
+            };
+        });
+        /*
+        $('.navlink-opt-item').click( function () {
+            $('.navlink-opt-item-current').attr('class', 'navlink-opt-item');
+        }); */
         """)
         nav.script = script
         return nav
