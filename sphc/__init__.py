@@ -1,7 +1,7 @@
 import cgi
 
 ESCAPE_DEFAULT = True
-TAGS_UNFRIENDLY_WITH_SELF_CLOSING = ('DIV', 'SELECT', 'TEXTAREA', 'SCRIPT')
+TAGS_UNFRIENDLY_WITH_SELF_CLOSING = ('DIV', 'SELECT', 'TEXTAREA', 'SCRIPT', 'A')
 
 class pats:
     regular = '<%(tagname)s%(nv_attributes)s%(attributes)s>%(content)s%(children)s</%(tagname)s>'
