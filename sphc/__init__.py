@@ -19,6 +19,12 @@ class Tag(object):
         self.attributes = {}
         self.nv_attributes = []
         self._content = ''
+    def add_classes(self, class_names):
+        if 'Class' in self.attributes:
+            self.attributes['Class'].extend(class_names)
+        else:
+            self.attributes['Class'] = class_names
+    #TODO: remove class(es)
     def __setattr__(self, name, v):
         if name in ['name', 'nv_attributes', 'children', 'attributes', '_content']:
             object.__setattr__(self, name, v)
