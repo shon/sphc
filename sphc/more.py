@@ -45,6 +45,9 @@ class HTML5Page(object):
 
     def topbar(self):
         return ''
+    
+    def logobar(self):
+        return ''
 
     def bottombar(self):
         return ''
@@ -77,6 +80,8 @@ class HTML5Page(object):
         html.head = self.head()
         html.body = tf.BODY()
         html.body.topbar = self.topbar()
+        html.body.clear = clear()
+        html.body.logobar = self.logobar()
         html.body.clear = clear()
         html.body.container = tf.DIV(id="container")
         html.body.container.nav = self.nav()
