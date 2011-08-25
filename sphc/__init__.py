@@ -21,9 +21,9 @@ class Tag(object):
         self._content = ''
     def add_classes(self, class_names):
         if 'Class' in self.attributes:
-            self.attributes['Class'].extend(class_names)
+            self.attributes['Class'] = self.attributes['Class'] + ' ' + (' '.join(class_names))
         else:
-            self.attributes['Class'] = class_names
+            self.attributes['Class'] = ' '.join(class_names)
     #TODO: remove class(es)
     def __setattr__(self, name, v):
         if name in ['name', 'nv_attributes', 'children', 'attributes', '_content']:
