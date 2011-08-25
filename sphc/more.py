@@ -56,15 +56,19 @@ class HTML5Page(object):
         if not self.nav_menu: return ''
         nav = tf.NAV()
         menu = []
-        for label, url, opt in self.nav_menu:
+        for label, url, opts in self.nav_menu:
             header = tf.H2()
             header.link = tf.A(label, href=url)
-            opt_box = tf.DIV(Class="nav-opt")
-            if opt:
-                opt_box.opt = opt
-                if label == self.current_nav:
-                    opt_box.add_classes(["nav-opt-current"])
-            menu.extend([header, opt_box])
+            opts_box = tf.DIV(Class="nav-opt")
+            if opts:
+                for opt in opts:
+                    opt_box = tf.DIV(Class="nav-opt-item")
+                    opt_box.opt = opt
+                    opts_box.opt_box = opt_box
+            if label == self.current_nav:
+                header.add_classes(["nav-current"])
+                opts_box.add_classes(["nav-opt-current"])
+            menu.extend([header, opts_box])
         nav.menu = menu
         return nav
 
