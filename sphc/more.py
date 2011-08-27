@@ -45,15 +45,21 @@ class HTML5Page(object):
 
     def topbar(self):
         return ''
-    
-    def logobar(self):
-        return ''
 
     def bottombar(self):
         return ''
 
-    def main(self):
+    def searchbox(self):
         return ''
+    
+    def content(self):
+        return ''
+        
+    def main(self):
+        main = tf.MAIN()
+        main.serachbox = self.searchbox()
+        main.contect = self.content() 
+        return main
 
     def nav(self):
         if not self.nav_menu: return ''
@@ -80,8 +86,6 @@ class HTML5Page(object):
         html.head = self.head()
         html.body = tf.BODY()
         html.body.topbar = self.topbar()
-        html.body.clear = clear()
-        html.body.logobar = self.logobar()
         html.body.clear = clear()
         html.body.container = tf.DIV(id="container")
         html.body.container.nav = self.nav()
