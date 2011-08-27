@@ -51,14 +51,14 @@ class HTML5Page(object):
 
     def searchbox(self):
         return ''
-    
+
     def content(self):
         return ''
-        
+
     def main(self):
-        main = tf.MAIN()
+        main = tf.DIV()
         main.serachbox = self.searchbox()
-        main.contect = self.content() 
+        main.content = self.content()
         return main
 
     def nav(self):
@@ -86,14 +86,12 @@ class HTML5Page(object):
         html.head = self.head()
         html.body = tf.BODY()
         html.body.topbar = self.topbar()
-        html.body.clear = clear()
-        html.body.container = tf.DIV(id="container")
+        html.body.container = tf.DIV(Class="container")
         html.body.container.nav = self.nav()
         html.body.container.header = self.header()
         html.body.container.main = tf.DIV(id="main", role="main")
         html.body.container.main.main = self.main()
         html.body.container.footer = self.footer()
-        html.body.clear = clear()
         html.body.bottombar = self.bottombar()
         return self.doctype + str(html)
 
