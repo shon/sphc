@@ -49,17 +49,8 @@ class HTML5Page(object):
     def bottombar(self):
         return ''
 
-    def searchbox(self):
-        return ''
-
-    def content(self):
-        return ''
-
     def main(self):
-        main = tf.DIV()
-        main.serachbox = self.searchbox()
-        main.content = self.content()
-        return main
+        return ''
 
     def nav(self):
         if not self.nav_menu: return ''
