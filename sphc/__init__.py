@@ -1,7 +1,7 @@
 import cgi
 
 ESCAPE_DEFAULT = True
-TAGS_UNFRIENDLY_WITH_SELF_CLOSING = ('DIV', 'SELECT', 'TEXTAREA', 'SCRIPT', 'A')
+TAGS_UNFRIENDLY_WITH_SELF_CLOSING = ('DIV', 'SELECT', 'TEXTAREA', 'SCRIPT', 'A', 'LABEL')
 
 class pats:
     regular = '<%(tagname)s%(nv_attributes)s%(attributes)s>%(content)s%(children)s</%(tagname)s>'
@@ -55,8 +55,8 @@ class Tag(object):
         if nv_attributes_s: nv_attributes_s = ' ' + nv_attributes_s
         if children_s: children_s = ' ' + children_s
 
-        if self.name.upper() in TAGS_UNFRIENDLY_WITH_SELF_CLOSING or self._content or children_s:
-            return pats.regular % dict(content=self._content, children=children_s, tagname=self.name, attributes=attributes_s, nv_attributes=nv_attributes_s)
+        #if self.name.upper() in TAGS_UNFRIENDLY_WITH_SELF_CLOSING or self._content or children_s:
+        return pats.regular % dict(content=self._content, children=children_s, tagname=self.name, attributes=attributes_s, nv_attributes=nv_attributes_s)
         return pats.no_content % dict(tagname=self.name, attributes=attributes_s, nv_attributes=nv_attributes_s)
 
     def pretty(self):
