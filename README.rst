@@ -2,7 +2,7 @@
 Simple Pythonic HTML Creator
 ============================
 
- - *Very alpha yet* but works
+ - Ultra simple and works
  - Compatible with Python3/ 2.x
 
  - Source: `<https://github.com/shon/sphc>`_
