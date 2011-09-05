@@ -98,3 +98,6 @@ class HTML5Page(object):
 
 def clear():
     return tf.BR(style="clear:both") # TODO: Use class clear/clearfix
+
+def jq_tmpl(id):
+    return tf.SCRIPT(id=id, type="text/x-jquery-tmpl")
