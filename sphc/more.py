@@ -107,6 +107,7 @@ class VForm(object):
         self.classes = classes
         self.attrs = attrs
         self.fields = []
+        self.btns = []
     def add_field(self, label, input, fhelp=None):
         label = label + ' *' if 'required' in input.nv_attributes else label
         field_box = tf.DIV(Class="vform-field", For=input.attributes['id'])
@@ -117,8 +118,14 @@ class VForm(object):
         if fhelp:
             field_box.fhelp = tf.SPAN(fhelp, Class='vform-inp-help')
         self.fields.append(field_box)
+    def add_buttons(self, *btns):
+        self.btns = btns
     def build(self):
         form = tf.FORM(**self.attrs)
         form.add_classes(['vform'] + self.classes)
         form.fields = self.fields
+        if self.btns:
+            buttons = tf.DIV(Class='buttons')
+            buttons.btns = self.btns
+            form.buttons = buttons
         return form
