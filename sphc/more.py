@@ -102,27 +102,46 @@ def clear():
 def jq_tmpl(id):
     return tf.SCRIPT(id=id, type="text/x-jquery-tmpl")
 
-class VForm(object):
+class Form(object):
+    """
+    classes: list of css class to assign
+    attrs: more form tag properties. optional
+    """
     def __init__(self, classes=[], **attrs):
         self.classes = classes
         self.attrs = attrs
         self.fields = []
         self.btns = []
-    def add_field(self, label, input, fhelp=None):
+
+    def add_field(self, label='', input=None, fhelp=None):
+        """
+        Adds common field to form.
+        label: field label
+        fhelp: help text for the field
+        css classes used
+        ----------------
+        field container div: field-box
+        label: field-label
+        input: field-input
+        help: field-help
+        """
+        assert bool(input), 'input must be Tag object'
         label = label + ' *' if 'required' in input.nv_attributes else label
-        field_box = tf.DIV(Class="vform-field", For=input.attributes['id'])
+        field_box = tf.DIV(Class="field", For=input.attributes['id'])
         field_box.label_box = tf.DIV()
-        field_box.label_box.label = tf.LABEL(label, Class='vform-label')
+        field_box.label_box.label = tf.LABEL(label, Class='field-label')
         field_box.input = input
-        input.add_classes(['vform-input'])
+        input.add_classes(['field-input'])
         if fhelp:
-            field_box.fhelp = tf.SPAN(fhelp, Class='vform-inp-help')
+            field_box.fhelp = tf.SPAN(fhelp, Class='field-help')
         self.fields.append(field_box)
+
     def add_buttons(self, *btns):
         self.btns = btns
+
     def build(self):
         form = tf.FORM(**self.attrs)
-        form.add_classes(['vform'] + self.classes)
+        form.add_classes(self.classes)
         form.fields = self.fields
         if self.btns:
             buttons = tf.DIV(Class='buttons')
