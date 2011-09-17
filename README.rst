@@ -51,7 +51,7 @@ Properties with no value required
 
 ::
 
-   >>> c = tf.INPUT('checked', type='checkbox', value='foo')
+   >>> c = tf.INPUT(nv_attrs=['checked'], type='checkbox', value='foo')
    >>> print(c)
    <INPUT checked type="checkbox", value="foo"/>
 
@@ -69,8 +69,12 @@ Escaping
 
 More
 ====
+More (sphc.more) provides some helper widgets based on core sphc.
+sphc.more usable but in progress work. You may want to use but be ready for api changes.
 
-sphc.more module privides base HTML5 page classes (based on html5boilerplate.com templates) This is work in progress.::
+Base HTML5 page classes 
+-----------------------
+(loosely based on html5boilerplate.com templates)::
 
     >>> import sphc.more
     >>> tf = sphc.TagFactory()
@@ -79,6 +83,41 @@ sphc.more module privides base HTML5 page classes (based on html5boilerplate.com
                 return tf.FOOTER("Footer text")
     >>> my_page = MyPage()
     >>> my_page.render()
+
+Building a form
+---------------
+
+    >>> import sphc
+    >>> import sphc.more
+    >>> 
+    >>> tf = sphc.TagFactory()
+    >>> 
+    >>> form = sphc.more.Form(classes=['vform'])
+    >>> form.add_field('Username', tf.INPUT(type="TEXT", id='username', name="username", placeholder="Username"))
+    >>> form.add_field('Password', tf.INPUT(type="password", id='password', name="password", placeholder="Password"))
+    >>> form.add_buttons(tf.BUTTON("Log In", id='login-btn', type='button'))
+    >>> print form.build()
+
+output::    
+
+    <FORM Class="vform"> 
+        <DIV Class="field" For="username"> 
+            <DIV>
+                <LABEL Class="field-label">Username</LABEL>
+            </DIV>
+            <INPUT placeholder="Username" Class="field-input" type="TEXT" name="username" id="username"/>
+        </DIV>
+        <DIV Class="field" For="password">
+            <DIV>
+                <LABEL Class="field-label">Password</LABEL>
+            </DIV>
+            <INPUT placeholder="Password" Class="field-input" type="password" name="password" id="password"></INPUT>
+        </DIV>
+        <DIV Class="buttons">
+            <BUTTON type="button" id="login-btn">Log In</BUTTON>
+        </DIV>
+    </FORM>
+
 
 
 Similar packages
