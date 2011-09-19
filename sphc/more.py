@@ -145,6 +145,7 @@ class Form(object):
         form.add_classes(self.classes)
         form.fields = self.fields
         if self.btns:
+            form.status = tf.DIV(Class='action-status')
             buttons = tf.DIV(Class='buttons')
             buttons.btns = self.btns
             form.buttons = buttons
