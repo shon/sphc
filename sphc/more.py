@@ -10,7 +10,11 @@ def gen_jquery_urls(jquery_version='1.6.2', jquery_ui_version='1.8.14'):
 
 css_links = [ 'https://github.com/thatcoolguy/gridless-boilerplate/raw/master/assets/css/main.css' ]
 
-class HTML5Page(object):
+class Page(object):
+    def __init__(self, data={}):
+        self.data = data
+
+class HTML5Page(Page):
     """
     Common case HTML5 template
     Loosely based on HTML5 Boilerplate
@@ -35,7 +39,13 @@ class HTML5Page(object):
         head.title = tf.TITLE(self.title)
         head.jslibs = [tf.SCRIPT(src=path) for path in self.jslibs]
         head.csslinks = [tf.LINK(rel="stylesheet", href=path) for path in self.css_links]
+        style = self.style()
+        if style:
+            head.style = tf.STYLE(style)
         return head
+
+    def style(self):
+        return None
 
     def header(self):
         return tf.HEADER()
@@ -72,7 +82,7 @@ class HTML5Page(object):
         nav.menu = menu
         return nav
 
-    def render(self):
+    def render(self, data={}):
         html = tf.HTML()
         html.head = self.head()
         html.body = tf.BODY()
@@ -84,7 +94,7 @@ class HTML5Page(object):
         html.body.container.main.main = self.main()
         html.body.container.footer = self.footer()
         html.body.bottombar = self.bottombar()
-        return self.doctype + str(html)
+        return (self.doctype + str(html)) % data
 
     def write(self, outpath, data={}):
         """
@@ -93,7 +103,7 @@ class HTML5Page(object):
         """
         outdir = os.path.dirname(outpath)
         if not os.path.exists(outdir): os.makedirs(outdir)
-        open(outpath, 'w').write(self.render() % data)
+        open(outpath, 'w').write(self.render(data))
         return True
 
 def clear():

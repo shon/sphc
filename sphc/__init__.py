@@ -9,12 +9,17 @@ class pats:
 
 class Tag(object):
     def __call__(self, content='', nv_attrs=(), escape=ESCAPE_DEFAULT, **attrs):
-        self._content = (cgi.escape(content) if escape else content) if content else ''
+        if isinstance(content, (Tag, list, tuple)):
+            self.child = content # this calls __setattr__ we dont't want to append directly to self.children
+            _content = ''
+        else:
+            _content = (cgi.escape(content) if escape else content) if content else ''
+        self._content = _content.replace('%', '%%')
         self.attributes = attrs
         self.nv_attributes = nv_attrs
         return self
     def __init__(self, name):
-        self.name = name
+        self._name = name
         self.children = []
         self.attributes = {}
         self.nv_attributes = []
@@ -26,13 +31,14 @@ class Tag(object):
             self.attributes['Class'] = ' '.join(class_names)
     #TODO: remove class(es)
     def __setattr__(self, name, v):
-        if name in ['name', 'nv_attributes', 'children', 'attributes', '_content']:
+        if name in ['_name', 'nv_attributes', 'children', 'attributes', '_content']:
             object.__setattr__(self, name, v)
         else:
             if isinstance(v, (tuple, list)):
                 ext = ((name, elem) for elem in v)
                 self.children.extend(ext)
             else:
+                assert isinstance(v, (basestring,Tag)), "Not a Tag object"
                 self.children.append((name, v))
     def __getattr__(self, name):
         children = object.__getattribute__(self, 'children')
@@ -56,8 +62,8 @@ class Tag(object):
         if children_s: children_s = ' ' + children_s
 
         #if self.name.upper() in TAGS_UNFRIENDLY_WITH_SELF_CLOSING or self._content or children_s:
-        return pats.regular % dict(content=self._content, children=children_s, tagname=self.name, attributes=attributes_s, nv_attributes=nv_attributes_s)
-        return pats.no_content % dict(tagname=self.name, attributes=attributes_s, nv_attributes=nv_attributes_s)
+        return pats.regular % dict(content=self._content, children=children_s, tagname=self._name, attributes=attributes_s, nv_attributes=nv_attributes_s)
+        return pats.no_content % dict(tagname=self._name, attributes=attributes_s, nv_attributes=nv_attributes_s)
 
     def pretty(self):
         from tidylib import tidy_document
