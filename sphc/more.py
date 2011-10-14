@@ -138,9 +138,9 @@ class Form(object):
         assert bool(input), 'input must be Tag object'
         label = label + ' *' if 'required' in input.nv_attributes else label
         field_box = tf.DIV(Class="field")
-        field_box.label_box = tf.DIV()
+        field_box.label_box = tf.DIV(Class='field-label')
         if label:
-            field_box.label_box.label = tf.LABEL(label, Class='field-label', For=input.attributes['id'])
+            field_box.label_box.label = tf.LABEL(label, For=input.attributes['id'])
         field_box.input = input
         input.add_classes(['field-input'])
         if fhelp:
