@@ -16,7 +16,7 @@ class Tag(object):
             _content = (cgi.escape(content) if escape else content) if content else ''
         self._content = _content.replace('%', '%%')
         self.attributes = attrs
-        self.nv_attributes = nv_attrs
+        self.nv_attributes = list(nv_attrs)
         return self
     def __init__(self, name):
         self._name = name
@@ -29,6 +29,9 @@ class Tag(object):
             self.attributes['Class'] = self.attributes['Class'] + ' ' + (' '.join(class_names))
         else:
             self.attributes['Class'] = ' '.join(class_names)
+    def set_required(self):
+        self.nv_attributes.append('required')
+        return self
     #TODO: remove class(es)
     def __setattr__(self, name, v):
         if name in ['_name', 'nv_attributes', 'children', 'attributes', '_content']:
