@@ -124,7 +124,7 @@ class Form(object):
         self.fields = []
         self.btns = []
 
-    def add_field(self, label='', input=None, fhelp=None):
+    def add_field(self, label='', input=None, fhelp=None, custom=False):
         """
         Adds common field to form.
         label: field label
@@ -137,16 +137,20 @@ class Form(object):
         help: field-help
         """
         assert bool(input), 'input must be Tag object'
-        field_box = tf.DIV(Class="field")
-        field_box.label_box = tf.DIV(Class='field-label')
-        if label:
-            field_box.label_box.label = tf.LABEL(label, For=input.attributes['id'])
-        field_box.input_box = tf.DIV(Class="field-input")
-        field_box.input_box.input = input
-        if 'required' in input.nv_attributes:
-            field_box.input_box.c = tf.C('*')
-        if fhelp:
-            field_box.fhelp = tf.SPAN(fhelp, Class='field-help')
+        if custom:
+            field_box = input
+        else:
+            field_box = tf.DIV(Class="field")
+            field_box.label_box = tf.DIV(Class='field-label')
+            if label:
+                field_box.label_box.label = tf.LABEL(label, For=input.attributes['id'])
+            field_box.input_box = tf.DIV(Class="field-input")
+            field_box.input_box.input = input
+            field_box.input_box.input.add_classes(['input'])
+            if 'required' in input.nv_attributes:
+                field_box.input_box.c = tf.C(' *')
+            if fhelp:
+                field_box.fhelp = tf.SPAN(fhelp, Class='field-help')
         self.fields.append(field_box)
 
     def add_buttons(self, *btns):

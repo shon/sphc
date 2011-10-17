@@ -119,8 +119,8 @@ Building a form
     >>> tf = sphc.TagFactory()
     >>> 
     >>> form = sphc.more.Form(classes=['vform'])
-    >>> form.add_field('Username', tf.INPUT(type="TEXT", id='username', name="username", placeholder="Username").set_required())
-    >>> form.add_field('Password', tf.INPUT(type="password", id='password', name="password", placeholder="Password"))
+    >>> form.add_field('Username', tf.INPUT(type="TEXT", id='username', name="username").set_required())
+    >>> form.add_field('Password', tf.INPUT(type="password", id='password', name="password"))
     >>> form.add_buttons(tf.BUTTON("Log In", id='login-btn', type='button'))
     >>> print form.build()
 
@@ -128,13 +128,13 @@ Building a form
         <DIV Class="field">
             <DIV Class="field-label"> <LABEL For="username">Username</LABEL></DIV>
             <DIV Class="field-input"> 
-                <INPUT required placeholder="Username" type="TEXT" name="username" id="username"></INPUT><C>*</C>
+                <INPUT required type="TEXT" name="username" id="username"></INPUT><C>*</C>
             </DIV>
         </DIV>
         <DIV Class="field"> 
             <DIV Class="field-label"> <LABEL For="password">Password</LABEL></DIV>
             <DIV Class="field-input">
-                <INPUT placeholder="Password" type="password" name="password" id="password"></INPUT>
+                <INPUT type="password" name="password" id="password"></INPUT>
             </DIV>
         </DIV>
         <DIV Class="action-status"></DIV>
