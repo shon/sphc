@@ -112,6 +112,9 @@ def clear():
 def jq_tmpl(id):
     return tf.SCRIPT(id=id, type="text/x-jquery-tmpl")
 
+def script_fromfile(path):
+    return tf.SCRIPT(open(path).read(), escape=False, type="text/javascript", language="javascript")
+
 class Form(object):
     """
     classes: list of css class to assign
