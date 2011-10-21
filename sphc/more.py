@@ -36,6 +36,7 @@ class HTML5Page(Page):
 
     def head(self):
         head = tf.HEAD()
+        head.encoding = tf.META(charset="utf-8")
         head.title = tf.TITLE(self.title)
         head.jslibs = [tf.SCRIPT(src=path) for path in self.jslibs]
         head.csslinks = [tf.LINK(rel="stylesheet", href=path) for path in self.css_links]
@@ -146,7 +147,11 @@ class Form(object):
             field_box = tf.DIV(Class="field")
             field_box.label_box = tf.DIV(Class='field-label')
             if label:
-                field_box.label_box.label = tf.LABEL(label, For=input.attributes['id'])
+                # if input is not provided, generate input id for linking input with label
+                input_id = input.attributes.get('id', (self.attrs.get('id', 'form') + '-' + input.attributes['name']))
+                if not 'id' in input.attributes:
+                    input.attributes['id'] = input_id
+                field_box.label_box.label = tf.LABEL(label, For=input_id)
             field_box.input_box = tf.DIV(Class="field-input")
             field_box.input_box.input = input
             field_box.input_box.input.add_classes(['input'])
