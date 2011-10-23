@@ -148,7 +148,10 @@ class Form(object):
             field_box.label_box = tf.DIV(Class='field-label')
             if label:
                 # if input is not provided, generate input id for linking input with label
-                input_id = input.attributes.get('id', (self.attrs.get('id', 'form') + '-' + input.attributes['name']))
+                input_id = input.attributes.get('id') or ""
+                if not input_id:
+                    if 'name' in input.attributes:
+                        input_id = (self.attrs.get('id', 'form') + '-' + input.attributes['name'])
                 if not 'id' in input.attributes:
                     input.attributes['id'] = input_id
                 field_box.label_box.label = tf.LABEL(label, For=input_id)
