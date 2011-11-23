@@ -116,20 +116,20 @@ def jq_tmpl(id):
 def script_fromfile(path):
     return tf.SCRIPT(open(path).read(), escape=False, type="text/javascript", language="javascript")
 
-class Form(object):
-    """
-    classes: list of css class to assign
-    attrs: more form tag properties. optional
-    """
+class FieldContainer(object):
+    default_attrs = {}
+
     def __init__(self, classes=[], **attrs):
         self.classes = classes
-        self.attrs = attrs
-        self.attrs['method'] = 'POST'
+        self.attrs = {}
+        self.attrs.update(self.default_attrs)
+        self.attrs.update(attrs)
         self.fields = []
         self.btns = []
 
     def add(self, elem):
         self.fields.append(elem)
+        return elem
 
     def add_field(self, label='', input=None, fhelp=None, custom=False):
         """
@@ -168,12 +168,25 @@ class Form(object):
         self.btns = btns
 
     def build(self):
-        form = tf.FORM(**self.attrs)
-        form.add_classes(self.classes)
-        form.fields = self.fields
+        form = getattr(tf, self.tagname)(**self.attrs)
+        if self.classes:
+            form.add_classes(self.classes)
+        form.fields = [(isinstance(field, Fieldset) and field.build() or field) for field in self.fields]
         if self.btns:
             form.status = tf.DIV(Class='action-status')
             buttons = tf.DIV(Class='buttons')
             buttons.btns = self.btns
             form.buttons = buttons
         return form
+
+class Form(FieldContainer):
+    """
+    classes: list of css class to assign
+    attrs: more form tag properties. optional
+    """
+    tagname = 'FORM'
+    default_attrs = dict(method='POST')
+
+
+class Fieldset(FieldContainer):
+    tagname = 'FIELDSET'

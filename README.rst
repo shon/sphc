@@ -60,8 +60,8 @@ Wrapping
     >>> block2 = tf.DIV([tf.DIV(), tf.DIV()], Class="outer")
     >>> content = tf.DIV([block1, block2])
 
-Piping 
-------
+Chaining
+--------
 set_required method below sets required property on Tag object AND returns Tag object::
 
     >>> form = tf.FORM()
@@ -142,6 +142,20 @@ Building a form
             <BUTTON type="button" id="login-btn">Log In</BUTTON>
         </DIV>
     </FORM>
+
+
+Form with fieldsets
+===================
+
+    >>> form = sphc.more.Form()
+    >>>
+    >>> about = form.add(sphc.more.Fieldset())
+    >>> about.add(sphc.tf.LEGEND('About'))
+    >>> about.add_field('Name', sphc.tf.INPUT(name='name', type='text'))
+    >>>
+    >>> contact = form.add(sphc.more.Fieldset())
+    >>> contact.add(sphc.tf.LEGEND('About'))
+    >>> contact.add_field('Name', sphc.tf.INPUT(name='name', type='text'))
 
 
 Finally

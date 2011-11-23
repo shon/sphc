@@ -68,7 +68,7 @@ class Tag(object):
         return pats.regular % dict(content=self._content, children=children_s, tagname=self._name, attributes=attributes_s, nv_attributes=nv_attributes_s)
         return pats.no_content % dict(tagname=self._name, attributes=attributes_s, nv_attributes=nv_attributes_s)
 
-    def pretty(self):
+    def pretty(self): # deprecated
         from tidylib import tidy_document
         options = { "output-xhtml": 0,     # XHTML instead of HTML4
             "indent": 1,           # Pretty; not too much of a performance hit
