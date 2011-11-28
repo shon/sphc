@@ -131,7 +131,7 @@ class FieldContainer(object):
         self.fields.append(elem)
         return elem
 
-    def add_field(self, label='', input=None, fhelp=None, custom=False):
+    def add_field(self, label='', input=None, fhelp=None, container_classes=[]):
         """
         Adds common field to form.
         label: field label
@@ -145,6 +145,7 @@ class FieldContainer(object):
         """
         assert bool(input), 'input must be Tag object'
         field_box = tf.DIV(Class="field")
+        field_box.add_classes(container_classes)
         field_box.label_box = tf.DIV(Class='field-label')
         if label:
             # if input is not provided, generate input id for linking input with label
