@@ -14,7 +14,7 @@ class Tag(object):
             _content = ''
         else:
             _content = (cgi.escape(content) if escape else content) if content else ''
-        self._content = _content.replace('%', '%%')
+        self._content = _content
         self.attributes = attrs
         self.nv_attributes = list(nv_attrs)
         return self

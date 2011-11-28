@@ -1,5 +1,5 @@
 import os
-import itertools
+import string
 import sphc
 
 tf = sphc.TagFactory()
@@ -95,7 +95,9 @@ class HTML5Page(Page):
         html.body.container.main.main = self.main()
         html.body.container.footer = self.footer()
         html.body.bottombar = self.bottombar()
-        return (self.doctype + str(html)) % data
+        out = string.Template(str(html)).safe_substitute(data)
+        return (self.doctype + out)
+
 
     def write(self, outpath, data={}):
         """
