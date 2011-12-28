@@ -33,6 +33,7 @@ class HTML5Page(Page):
     title = "Common case HTML5 template"
     nav_menu = []
     current_nav = ""
+    script = None
 
     def head(self):
         head = tf.HEAD()
@@ -95,6 +96,8 @@ class HTML5Page(Page):
         html.body.container.main.main = self.main()
         html.body.container.footer = self.footer()
         html.body.bottombar = self.bottombar()
+        if self.script:
+            html.body.script = tf.SCRIPT(open(self.script).read(), escape=False, type="text/javascript", language="javascript")
         out = string.Template(str(html)).safe_substitute(data)
         return (self.doctype + out)
 
