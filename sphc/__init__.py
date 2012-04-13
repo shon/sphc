@@ -16,6 +16,8 @@ class Tag(object):
             _content = (cgi.escape(content) if escape else content) if content else ''
         self._content = _content
         self.attributes = attrs
+        if 'data_bind' in self.attributes:
+            self.attributes['data-bind'] = self.attributes.pop('data_bind')
         self.nv_attributes = list(nv_attrs)
         return self
     def __init__(self, name):
