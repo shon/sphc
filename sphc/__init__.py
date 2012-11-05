@@ -2,10 +2,12 @@ import cgi
 
 ESCAPE_DEFAULT = True
 TAGS_UNFRIENDLY_WITH_SELF_CLOSING = ('DIV', 'SELECT', 'TEXTAREA', 'SCRIPT', 'A', 'LABEL')
+TAGS_WITH_NO_END = ('META', 'LINK', 'INPUT', 'IMG', 'BR', 'HR')
 
 class pats:
     regular = '<%(tagname)s%(nv_attributes)s%(attributes)s>%(content)s%(children)s</%(tagname)s>'
     no_content = '<%(tagname)s%(nv_attributes)s%(attributes)s/>'
+    no_end = '<%(tagname)s%(nv_attributes)s%(attributes)s>'
 
 class Tag(object):
     def __call__(self, content='', nv_attrs=(), escape=ESCAPE_DEFAULT, **attrs):
@@ -67,8 +69,12 @@ class Tag(object):
         if children_s: children_s = ' ' + children_s
 
         #if self.name.upper() in TAGS_UNFRIENDLY_WITH_SELF_CLOSING or self._content or children_s:
-        return pats.regular % dict(content=self._content, children=children_s, tagname=self._name, attributes=attributes_s, nv_attributes=nv_attributes_s)
-        return pats.no_content % dict(tagname=self._name, attributes=attributes_s, nv_attributes=nv_attributes_s)
+        pat = pats.regular
+        if self._name in TAGS_WITH_NO_END:
+            pat = pats.no_end
+
+        return pat % dict(content=self._content, children=children_s, tagname=self._name, attributes=attributes_s, nv_attributes=nv_attributes_s)
+        # return pats.no_content % dict(tagname=self._name, attributes=attributes_s, nv_attributes=nv_attributes_s)
 
     def pretty(self): # deprecated
         from tidylib import tidy_document
