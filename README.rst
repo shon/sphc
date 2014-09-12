@@ -6,8 +6,9 @@ Simple Pythonic HTML Creator
  - Compatible with Python3/ 2.x
 
  - *Pythonic*
-    ::
-    
+
+.. code-block:: python
+
         >>> adiv = tf.DIV("Hello World!", id="header_1", Class="header")
         >>> print (adiv)
         <DIV id="header_1" class="header">Hello World</DIV>
@@ -19,7 +20,8 @@ Examples
 
 Hello World!
 ------------
-::
+
+.. code-block:: python
 
     >>> import sphc
     >>> tf = sphc.TagFactory()
@@ -30,10 +32,10 @@ Hello World!
 
 Constructing a page
 -------------------
-::
+
+.. code-block:: python
 
     >>> doc = tf.HTML()
-    >>> doc.body = tf.BODY()
     >>> doc.body.content = tf.H1("The content")
     >>> print(doc)
     <HTML>
@@ -45,7 +47,9 @@ Constructing a page
 
 Using list of Tag objects
 -------------------------
-Especially usefule for constructing tables and select options::
+Especially usefule for constructing tables and select options
+
+.. code-block:: python
 
     >>> data = [('One', '1'), ('Two', '2'), ('Three', '3')]
     >>> atable = tf.TABLE()
@@ -56,13 +60,18 @@ Especially usefule for constructing tables and select options::
 
 Wrapping
 --------
+
+.. code-block:: python
+
     >>> block1 = tf.DIV(tf.DIV("content", Class="inner"), Class="outer")
     >>> block2 = tf.DIV([tf.DIV(), tf.DIV()], Class="outer")
     >>> content = tf.DIV([block1, block2])
 
 Chaining
 --------
-set_required method below sets required property on Tag object AND returns Tag object::
+set_required method below sets required property on Tag object AND returns Tag object
+
+.. code-block:: python
 
     >>> form = tf.FORM()
     >>> form.username = tf.INPUT(name="username").set_required()
@@ -74,15 +83,17 @@ set_required method below sets required property on Tag object AND returns Tag o
 
 Properties with no value required
 ---------------------------------
-::
 
-   >>> c = tf.INPUT(nv_attrs=['checked'], type='checkbox', value='foo')
+.. code-block:: python
+
+   >>> c = tf.INPUT(None, 'checked', type='checkbox', value='foo')
    >>> print(c)
    <INPUT checked type="checkbox", value="foo"/>
 
 Escaping
 --------
-::
+
+.. code-block:: python
 
     >>> print(tf.C(' >> ')) # Default
     >>> <C> &gt;&gt; </C>
@@ -93,11 +104,12 @@ Escaping
 
 More
 ====
-Well since you reached here time to show some experimental stuff.
+Well since you reached here it's time to show some experimental stuff.
 
 Hello sphc.more
 ---------------
-(loosely based on html5boilerplate.com templates)::
+
+.. code-block:: python
 
     >>> import sphc.more
     >>> tf = sphc.TagFactory()
@@ -111,7 +123,8 @@ This will return a string that would contain html exactly like what you have exp
 
 Building a form
 ---------------
-::
+
+.. code-block:: python
 
     >>> import sphc
     >>> import sphc.more
@@ -147,6 +160,8 @@ Building a form
 Form with fieldsets
 ===================
 
+.. code-block:: python
+
     >>> form = sphc.more.Form()
     >>>
     >>> about = form.add(sphc.more.Fieldset())
@@ -158,21 +173,7 @@ Form with fieldsets
     >>> contact.add_field('Name', sphc.tf.INPUT(name='name', type='text'))
 
 
-Finally
+Source
 =======
 
- - Source: `<https://github.com/shon/sphc>`_
- - Any suggestions/issues | `<https://github.com/shon/sphc/issues>`_
- - Critisism or if you feel such thing already implemented feel free to write Authour.
-
-
-Similar packages
-----------------
-    - http://shpaml.webfactional.com/ # Just awesome
-    - http://pypi.python.org/pypi/html # Inspiration. It uses __getattr__ trick whereas this package is mostly a __setattr__ trick, aiming sharing of blocks.
-    - http://karrigell.sourceforge.net/en/htmltags.html
-
-TODO
-----
- - To add more tests
- - A document class ?
+https://github.com/shon/sphc

@@ -2,37 +2,18 @@ import os
 import string
 import sphc
 
-tf = sphc.TagFactory()
+from sphc import tf
 
-def gen_jquery_urls(jquery_version='1.6.2', jquery_ui_version='1.8.14'):
-    return [ ('https://ajax.googleapis.com/ajax/libs/jquery/%s/jquery.min.js' % jquery_version),
-        ('http://ajax.googleapis.com/ajax/libs/jqueryui/%s/jquery-ui.min.js' % jquery_ui_version) ]
-
-css_links = [ 'https://github.com/thatcoolguy/gridless-boilerplate/raw/master/assets/css/main.css' ]
 
 class Page(object):
     def __init__(self, data={}):
         self.data = data
 
 class HTML5Page(Page):
-    """
-    Common case HTML5 template
-    Loosely based on HTML5 Boilerplate
-
-    nav_menu: list eg. [('Home', '/', None), ('About Us', '/about', None)]
-        Also supports higly flexible navigation options as shown in example below
-        >>> home_opts = [tf.A('Home Option 1', href='/home/opt_1'), tf.A('Home Option 2', href='/home/opt_2')]
-        >>> profile_opts = [tf.A('Profile Option 1', href='/profile/opt_1'), tf.A('Profile Option 2', href='/profile/opt_2')]
-        >>> nav_menu = [
-            ('Home', '#home', home_opts),
-            ('Invoicing', '#home', profile_opts) ]
-    """
     doctype = "<!DOCTYPE html>"
-    jslibs = gen_jquery_urls()
-    css_links = css_links
-    title = "Common case HTML5 template"
-    nav_menu = []
-    current_nav = ""
+    jslibs = []
+    css_links = []
+    title = "HTML5 template"
     script = None
 
     def head(self):
@@ -112,14 +93,13 @@ class HTML5Page(Page):
         open(outpath, 'w').write(self.render(data))
         return True
 
-def clear():
-    return tf.BR(style="clear:both") # TODO: Use class clear/clearfix
-
-def jq_tmpl(id):
-    return tf.SCRIPT(id=id, type="text/x-jquery-tmpl")
 
 def script_fromfile(path):
     return tf.SCRIPT(open(path).read(), escape=False, type="text/javascript", language="javascript")
+
+def css_fromfile(path):
+    return tf.STYLE(open(path).read())
+
 
 class FieldContainer(object):
     default_attrs = {}
