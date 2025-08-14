@@ -1,7 +1,4 @@
-try:
-    import html as cgi  # py3
-except:
-    import cgi
+from html import escape
 
 
 TAGS_UNFRIENDLY_WITH_SELF_CLOSING = ('DIV', 'SELECT', 'TEXTAREA', 'SCRIPT', 'A', 'LABEL')
@@ -16,12 +13,12 @@ class pats:
 
 class Tag(object):
     def __call__(self, content='', *nv_attrs, **attrs):
-        escape = attrs.pop('escape', True)
+        should_escape = attrs.pop('escape', True)
         if isinstance(content, (Tag, list, tuple)):
             self.child = content  # this calls __setattr__ we dont't want to append directly to self.children
             _content = ''
         else:
-            _content = (cgi.escape(content) if escape else content) if content else ''
+            _content = (escape(content) if should_escape else content) if content else ''
         self._content = _content
         self.attributes = attrs
         if 'data_bind' in self.attributes:
@@ -79,9 +76,7 @@ class Tag(object):
         return ret
 
     def __str__(self):
-        children_s = ''
-        for child in self.children:
-            children_s += str(child)
+        children_s = "".join(map(str, self.children))
         attributes_s = ' '.join('%s="%s"' % kv for kv in self.attributes.items())
         nv_attributes_s = ' '.join(self.nv_attributes)
 
