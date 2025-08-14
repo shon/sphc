@@ -79,9 +79,7 @@ class Tag(object):
         return ret
 
     def __str__(self):
-        children_s = ''
-        for child in self.children:
-            children_s += str(child)
+        children_s = "".join(map(str, self.children))
         attributes_s = ' '.join('%s="%s"' % kv for kv in self.attributes.items())
         nv_attributes_s = ' '.join(self.nv_attributes)
 
