@@ -8,7 +8,7 @@ setup(
     packages=find_packages(),
     author='Shekhar Tiwatne',
     author_email='pythonic@gmail.com',
-    url="http://flavors.me/shon",
+    url="https://shon.github.io",
     license="http://www.opensource.org/licenses/mit-license.php",
     python_requires='>=3',
     )
