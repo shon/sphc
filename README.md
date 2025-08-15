@@ -45,6 +45,8 @@ Especially useful for constructing tables and select options.
 ...     row = tf.TR()
 ...     row.cells = [tf.TD(element[0]), tf.TD(element[1])]
 ...     atable.row = row
+>>> print(atable)
+<TABLE><TR><TD>One</TD><TD>1</TD></TR><TR><TD>Two</TD><TD>2</TD></TR><TR><TD>Three</TD><TD>3</TD></TR></TABLE>
 ```
 
 ### Wrapping Content 🎁
@@ -71,7 +73,7 @@ The `set_required` method sets the `required` property on a Tag object AND retur
 ```python
 >>> c = tf.INPUT(None, 'checked', type='checkbox', value='foo')
 >>> print(c)
-<INPUT checked type="checkbox" value="foo"/>
+<INPUT type="checkbox" value="foo" checked/>
 ```
 
 ### Escaping Content 🔓
@@ -116,7 +118,7 @@ This will return a complete HTML5 page as a string, just like you'd expect.
 >>> form.add_field('Password', tf.INPUT(type="password", id='password', name="password"))
 >>> form.add_buttons(tf.BUTTON("Log In", id='login-btn', type='button'))
 >>> print(form.build())
-<FORM method="POST" Class="vform"><DIV Class="field"><DIV Class="field-label"><LABEL For="username">Username</LABEL></DIV><DIV Class="field-input"><INPUT required="" type="TEXT" name="username" id="username"/><C> *</C></DIV></DIV><DIV Class="field"><DIV Class="field-label"><LABEL For="password">Password</LABEL></DIV><DIV Class="field-input"><INPUT type="password" name="password" id="password"/></DIV></DIV><DIV Class="action-status"/><DIV Class="buttons"><BUTTON type="button" id="login-btn">Log In</BUTTON></DIV></FORM>
+<FORM method="POST" Class="vform"><DIV Class="field"><DIV Class="field-label"><LABEL For="username">Username</LABEL></DIV><DIV Class="field-input"><INPUT type="TEXT" id="username" name="username" required/><C> *</C></DIV></DIV><DIV Class="field"><DIV Class="field-label"><LABEL For="password">Password</LABEL></DIV><DIV Class="field-input"><INPUT type="password" id="password" name="password"/></DIV></DIV><DIV Class="action-status"></DIV><DIV Class="buttons"><BUTTON id="login-btn" type="button">Log In</BUTTON></DIV></FORM>
 ```
 
 ### Forms with Fieldsets 🗂️
@@ -131,6 +133,8 @@ This will return a complete HTML5 page as a string, just like you'd expect.
 >>> contact = form.add(sphc.more.Fieldset())
 >>> contact.add(sphc.tf.LEGEND('Contact'))
 >>> contact.add_field('Email', sphc.tf.INPUT(name='email', type='email'))
+>>> print(form.build())
+<FORM method="POST"><FIELDSET><LEGEND>About</LEGEND><DIV Class="field"><DIV Class="field-label"><LABEL For="form-name">Name</LABEL></DIV><DIV Class="field-input"><INPUT name="name" type="text" id="form-name"/></DIV></DIV></FIELDSET><FIELDSET><LEGEND>Contact</LEGEND><DIV Class="field"><DIV Class="field-label"><LABEL For="form-email">Email</LABEL></DIV><DIV Class="field-input"><INPUT name="email" type="email" id="form-email"/></DIV></DIV></FIELDSET></FORM>
 ```
 
 ## 💻 Source

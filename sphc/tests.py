@@ -24,7 +24,7 @@ class TestSPHC(unittest.TestCase):
     def test_dot_tag_generation(self):
         outer = tf.OUTER()
         outer.middle.inner = tf.DIV(Class='inner')
-        expected = '<OUTER><middle><DIV Class="inner"></DIV></middle></OUTER>'
+        expected = '<OUTER><MIDDLE><DIV Class="inner"></DIV></MIDDLE></OUTER>'
         self.assertEqual(str(outer), expected)
 
     def test_bigdoc(self):
@@ -55,7 +55,7 @@ class TestSPHC(unittest.TestCase):
         html.body.content.c = c
         html.body.content.atable = atable
 
-        expected = '<HTML><HEAD></HEAD><BODY><DIV Class="content">Some Text here.<BR><BR><DIV></DIV><INPUT checked type="checkbox"><TABLE><TR><TD>One</TD><TD>1</TD></TR><TR><TD>Two</TD><TD>2</TD></TR><TR><TD>Three</TD><TD>3</TD></TR><TR><TD>Four</TD><TD>4</TD></TR></TABLE></DIV></BODY><FOOTER></FOOTER></HTML>'
+        expected = '<HTML><HEAD></HEAD><BODY><DIV Class="content">Some Text here.<BR/><BR/><DIV></DIV><INPUT type="checkbox" checked/><TABLE><TR><TD>One</TD><TD>1</TD></TR><TR><TD>Two</TD><TD>2</TD></TR><TR><TD>Three</TD><TD>3</TD></TR><TR><TD>Four</TD><TD>4</TD></TR></TABLE></DIV></BODY><FOOTER></FOOTER></HTML>'
         assert str(html) == expected
 
 if __name__ == "__main__":
