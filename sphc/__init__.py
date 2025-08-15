@@ -6,9 +6,9 @@ TAGS_WITH_NO_CLOSING = ('META', 'LINK', 'INPUT', 'IMG', 'BR', 'HR', 'DOCTYPE')
 
 
 class pats:
-    regular = '<%(tagname)s%(nv_attributes)s%(attributes)s>%(content)s%(children)s</%(tagname)s>'
-    no_content = '<%(tagname)s%(nv_attributes)s%(attributes)s/>'
-    no_end = '<%(tagname)s%(nv_attributes)s%(attributes)s>%(content)s%(children)s'
+    regular = '<%(tagname)s%(attributes)s>%(content)s%(children)s</%(tagname)s>'
+    no_content = '<%(tagname)s%(attributes)s/>'
+    no_end = '<%(tagname)s%(attributes)s/>'
 
 
 class Tag(object):
@@ -35,6 +35,8 @@ class Tag(object):
         self._content = ''
 
     def add_classes(self, class_names):
+        if not class_names:
+            return
         if 'Class' in self.attributes:
             self.attributes['Class'] = self.attributes['Class'] + ' ' + (' '.join(class_names))
         else:
@@ -76,19 +78,21 @@ class Tag(object):
 
     def __str__(self):
         children_s = "".join(map(str, self.children))
-        attributes_s = ' '.join('%s="%s"' % kv for kv in self.attributes.items())
-        nv_attributes_s = ' '.join(self.nv_attributes)
+
+        attrs = []
+        if self.attributes:
+            attrs.extend(['%s="%s"' % kv for kv in self.attributes.items()])
+        if self.nv_attributes:
+            attrs.extend(self.nv_attributes)
+
+        attributes_s = ' '.join(attrs)
 
         if attributes_s: attributes_s = ' ' + attributes_s
-        if nv_attributes_s: nv_attributes_s = ' ' + nv_attributes_s
 
-        #if self.name.upper() in TAGS_UNFRIENDLY_WITH_SELF_CLOSING or self._content or children_s:
-        pat = pats.regular
         if self._name.upper() in TAGS_WITH_NO_CLOSING:
-            pat = pats.no_end
-
-        return pat % dict(content=self._content, children=children_s, tagname=self._name, attributes=attributes_s, nv_attributes=nv_attributes_s)
-        # return pats.no_content % dict(tagname=self._name, attributes=attributes_s, nv_attributes=nv_attributes_s)
+            return pats.no_end % dict(tagname=self._name, attributes=attributes_s)
+        else:
+            return pats.regular % dict(content=self._content, children=children_s, tagname=self._name, attributes=attributes_s)
 
 
 class TagFactory:

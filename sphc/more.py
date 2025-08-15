@@ -15,6 +15,7 @@ class HTML5Page(Page):
     css_links = []
     title = "HTML5 template"
     script = None
+    nav_menu = None
 
     def head(self):
         head = tf.HEAD()
@@ -143,7 +144,6 @@ class FieldContainer(object):
             field_box.label_box.label = tf.LABEL(label, For=input_id)
         field_box.input_box = tf.DIV(Class="field-input")
         field_box.input_box.input = input
-        field_box.input_box.input.add_classes(['input'])
         if 'required' in input.nv_attributes:
             field_box.input_box.c = tf.C(' *')
         if fhelp:
