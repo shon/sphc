@@ -27,7 +27,7 @@ class Tag(object):
         return self
 
     def __init__(self, name):
-        self._name = name
+        self._name = name.upper()
         self.children = []
         self.children_names = []
         self.attributes = {}
@@ -71,8 +71,7 @@ class Tag(object):
                 ret = object.__getattribute__(self, name)
             except AttributeError:
                 ret = Tag(name)
-                attrname = name + str(id(ret))
-                setattr(self, attrname, ret)
+                setattr(self, name, ret)
         return ret
 
     def __str__(self):
