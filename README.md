@@ -137,3 +137,7 @@ This will return a complete HTML5 page as a string, just like you'd expect.
 
 Find the source code on GitHub:
 [https://github.com/shon/sphc](https://github.com/shon/sphc)
+
+## 🛠️ Building from Source
+
+For instructions on how to build and distribute the package from source, please see [BUILD.md](BUILD.md).
