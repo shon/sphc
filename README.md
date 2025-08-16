@@ -145,3 +145,20 @@ Find the source code on GitHub:
 ## 🛠️ Building from Source
 
 For instructions on how to build and distribute the package from source, please see [BUILD.md](BUILD.md).
+
+---
+
+## Performance
+
+A small, informal benchmark was conducted to compare `sphc` with some other popular template/html generation libraries. The benchmark generates a 100-row HTML table 1000 times. The results below show the time taken in seconds (lower is better).
+
+Please note that these benchmarks are not comprehensive and your results may vary depending on the specific use case and hardware.
+
+| Library  | Time (seconds) | Chart (longer is slower) |
+|----------|----------------|--------------------------|
+| Mako     | 1.81           | `█████`                  |
+| Jinja2   | 4.08           | `████████████`           |
+| sphc     | 11.33          | `█████████████████████████████████` |
+| dominate | 17.26          | `██████████████████████████████████████████████████` |
+
+*These results were generated on a generic cloud instance and should be taken with a grain of salt.*

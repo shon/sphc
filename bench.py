@@ -43,20 +43,15 @@ def run_mako():
     """)
     return template.render(table_data=table_data)
 
-def run_bottle():
-    from bottle import SimpleTemplate
-    template = SimpleTemplate("""
-        <table>
-            % for row in table_data:
-            <tr>
-                % for key in sorted(row.keys()):
-                <td>{{row[key]}}</td>
-                % end
-            </tr>
-            % end
-        </table>
-    """)
-    return template.render(table_data=table_data)
+def run_dominate():
+    import dominate.tags as d
+    table = d.table()
+    for row_data in table_data:
+        row = d.tr()
+        for key in sorted(row_data.keys()):
+            row += d.td(str(row_data[key]))
+        table += row
+    return str(table)
 
 if __name__ == '__main__':
     # Increase the number for more accurate results
@@ -69,10 +64,12 @@ if __name__ == '__main__':
     sphc_time = timeit.timeit(run_sphc, number=number)
     jinja2_time = timeit.timeit(run_jinja2, number=number)
     mako_time = timeit.timeit(run_mako, number=number)
-    bottle_time = timeit.timeit(run_bottle, number=number)
+    dominate_time = timeit.timeit(run_dominate, number=number)
 
     print("\nResults (lower is better):")
-    print("sphc:   ", sphc_time)
-    print("Jinja2: ", jinja2_time)
-    print("Mako:   ", mako_time)
-    print("Bottle: ", bottle_time)
+    print("| Library  | Time (seconds) |")
+    print("|----------|----------------|")
+    print(f"| sphc     | {sphc_time:<14.4f} |")
+    print(f"| Jinja2   | {jinja2_time:<14.4f} |")
+    print(f"| Mako     | {mako_time:<14.4f} |")
+    print(f"| dominate | {dominate_time:<14.4f} |")
